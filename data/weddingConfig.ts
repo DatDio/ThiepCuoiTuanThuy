@@ -87,8 +87,8 @@ export interface WeddingConfig {
 export const weddingConfig: WeddingConfig = {
   // 1. ẢNH ĐẠI DIỆN ĐẦU TRANG & ẢNH XEM TRƯỚC TRÊN ZALO / FACEBOOK
   // Bạn có thể dán link online (https://...) HOẶC copy ảnh vào thư mục public/images/ rồi điền "/images/ten-anh.jpg"
-  heroImage: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop",
-  ogImage: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
+  heroImage: "/images/photo_2026-09-08_20-05-25.jpg",
+  ogImage: "/images/photo_2026-09-08_20-05-25.jpg",
 
   groom: {
     name: "Quốc Tuấn",
@@ -201,8 +201,8 @@ export const weddingConfig: WeddingConfig = {
     }
   ],
   music: {
-    url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=wedding-love-romantic-112194.mp3",
-    title: "A Thousand Years (Acoustic Wedding)",
-    artist: "Piano & Cello Melody"
+    url: "/music/IDo.mp3",
+    title: "I Do",
+    artist: "911"
   }
 };

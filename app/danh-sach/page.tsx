@@ -14,9 +14,16 @@ import {
   Search,
   Sparkles,
   ArrowLeft,
-  Heart
+  Heart,
+  Lock,
+  Eye,
+  EyeOff,
+  ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
+
+const ACCESS_PASSWORD = "tuanthuy";
+const SESSION_KEY = "wedding_guest_auth";
 
 const INITIAL_DEMO_GUESTS: GuestItem[] = [
   {
@@ -45,7 +52,173 @@ const INITIAL_DEMO_GUESTS: GuestItem[] = [
   }
 ];
 
+function PasswordGate({ onSuccess }: { onSuccess: () => void }) {
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === ACCESS_PASSWORD) {
+      try {
+        sessionStorage.setItem(SESSION_KEY, "authenticated");
+      } catch {
+        // ignore
+      }
+      onSuccess();
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#F4EFE6",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px 16px"
+      }}
+    >
+      <div
+        style={{
+          background: "#FFFFFF",
+          borderRadius: "20px",
+          border: "1px solid var(--border-gold)",
+          padding: "40px 32px",
+          maxWidth: "420px",
+          width: "100%",
+          boxShadow: "0 12px 40px rgba(26,61,47,0.1)",
+          textAlign: "center",
+          animation: shake ? "shakeX 0.5s ease" : undefined
+        }}
+      >
+        <div
+          style={{
+            width: "64px",
+            height: "64px",
+            borderRadius: "50%",
+            background: "linear-gradient(135deg, var(--color-forest), #2D5A47)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 20px"
+          }}
+        >
+          <Lock size={28} color="#FFFFFF" />
+        </div>
+
+        <h1
+          style={{
+            fontFamily: "var(--font-heading)",
+            fontSize: "22px",
+            color: "var(--color-forest)",
+            margin: "0 0 8px"
+          }}
+        >
+          Trang Quản Lý Nội Bộ
+        </h1>
+        <p style={{ fontSize: "13px", color: "var(--text-muted)", margin: "0 0 24px", lineHeight: 1.5 }}>
+          Vui lòng nhập mật khẩu để truy cập danh sách khách mời và công cụ quản lý.
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          <div style={{ position: "relative", marginBottom: "16px" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="Nhập mật khẩu..."
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+                setError(false);
+              }}
+              autoFocus
+              style={{
+                textAlign: "center",
+                fontSize: "16px",
+                padding: "14px 48px 14px 16px",
+                borderRadius: "12px",
+                border: error ? "2px solid #E53935" : "1px solid var(--border-gold)",
+                transition: "border-color 0.3s ease"
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "14px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "var(--text-muted)",
+                padding: "4px"
+              }}
+              title={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          {error && (
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#E53935",
+                marginBottom: "12px",
+                fontWeight: 600
+              }}
+            >
+              ⚠️ Mật khẩu không chính xác. Vui lòng thử lại!
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="btn-primary-pill"
+            style={{
+              width: "100%",
+              height: "48px",
+              fontSize: "14px",
+              borderRadius: "12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px"
+            }}
+          >
+            <ShieldCheck size={18} /> Xác Nhận Truy Cập
+          </button>
+        </form>
+
+        <div style={{ marginTop: "20px", fontSize: "11px", color: "var(--text-light)" }}>
+          <Heart size={12} fill="#C5A059" color="#C5A059" style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} />
+          Thiệp Cưới Online Tuấn & Thuỷ
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes shakeX {
+          0%, 100% { transform: translateX(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+          20%, 40%, 60%, 80% { transform: translateX(6px); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export default function GuestManagerPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const [guests, setGuests] = useState<GuestItem[]>([]);
   const [name, setName] = useState("");
   const [salutation, setSalutation] = useState("Anh");
@@ -58,8 +231,23 @@ export default function GuestManagerPage() {
   const [baseUrl, setBaseUrl] = useState("");
 
   useEffect(() => {
-    // Determine base URL
+    // Check session authentication
     if (typeof window !== "undefined") {
+      try {
+        const auth = sessionStorage.getItem(SESSION_KEY);
+        if (auth === "authenticated") {
+          setIsAuthenticated(true);
+        }
+      } catch {
+        // ignore
+      }
+      setAuthChecked(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Load guest data only when authenticated
+    if (isAuthenticated && typeof window !== "undefined") {
       setBaseUrl(window.location.origin);
       try {
         const saved = localStorage.getItem("wedding_guests_list");
@@ -73,7 +261,7 @@ export default function GuestManagerPage() {
         setGuests(INITIAL_DEMO_GUESTS);
       }
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const saveGuests = (updated: GuestItem[]) => {
     setGuests(updated);
@@ -178,6 +366,16 @@ export default function GuestManagerPage() {
     g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (g.role && g.role.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  // Show nothing while checking auth status (prevents flash)
+  if (!authChecked) {
+    return <div style={{ minHeight: "100vh", backgroundColor: "#F4EFE6" }} />;
+  }
+
+  // Show password gate if not authenticated
+  if (!isAuthenticated) {
+    return <PasswordGate onSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#F4EFE6", padding: "24px 16px" }}>
