@@ -2,72 +2,88 @@
 
 import React from "react";
 import { weddingConfig } from "@/data/weddingConfig";
-import { Sparkles } from "lucide-react";
 
-interface HeroSectionProps {
-  guestName: string;
-}
+export default function HeroSection() {
+  const { groom, bride, eventReception, eventCeremony } = weddingConfig;
 
-export default function HeroSection({ guestName }: HeroSectionProps) {
+  // Generate calendar for the wedding month
+  const generateDays = () => {
+    const year = eventReception.calendarYear;
+    const month = eventReception.calendarMonth;
+    const firstDayIndex = new Date(year, month - 1, 1).getDay();
+    const offset = firstDayIndex === 0 ? 6 : firstDayIndex - 1; // Monday start
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const prevMonthDays = new Date(year, month - 1, 0).getDate();
+    const cells: { day: number; currentMonth: boolean; isReception?: boolean; isCeremony?: boolean }[] = [];
+
+    for (let i = 0; i < offset; i++) {
+      cells.push({ day: prevMonthDays - offset + 1 + i, currentMonth: false });
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      cells.push({
+        day: d,
+        currentMonth: true,
+        isReception: d === eventReception.weddingDay,
+        isCeremony: d === parseInt(eventCeremony.day)
+      });
+    }
+
+    const totalNeeded = cells.length > 35 ? 42 : 35;
+    const remaining = totalNeeded - cells.length;
+    for (let i = 1; i <= remaining; i++) {
+      cells.push({ day: i, currentMonth: false });
+    }
+
+    return cells;
+  };
+
+  const calendarDays = generateDays();
+  const weekdays = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+
   return (
-    <div className="hero-container">
-      {/* Inverted Arch Header - Exactly matching Image 1 */}
-      <div className="welcome-arch">
-        <div className="welcome-subtitle">WELCOME TO OUR WEDDING</div>
-        
-        {/* Song Hỷ Symbol */}
-        <div className="song-hy-symbol">囍</div>
-        
-        <div className="couple-title-row">
-          <div className="couple-col">
-            <div className="couple-role">{weddingConfig.groom.role}</div>
-            <div className="couple-header-name">{weddingConfig.groom.name.toUpperCase()}</div>
-          </div>
-          
-          <div className="couple-col">
-            <div className="couple-role">{weddingConfig.bride.role}</div>
-            <div className="couple-header-name">{weddingConfig.bride.name.toUpperCase()}</div>
-          </div>
-        </div>
+    <section className="hero-section">
+      {/* Save The Date Title */}
+      <div className="hero-save-the-date">
+        <h2>Save The Date</h2>
       </div>
 
-      {/* Dynamic Personalized Guest Card */}
-      <div className="guest-invitation-banner">
-        <div className="guest-badge-label">
-          <Sparkles size={13} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} />
-          Trân Trọng Kính Mời
-        </div>
-        <div className="guest-name-highlight">{guestName}</div>
-        <div className="guest-subtext">
-          Đến tham dự buổi tiệc chung vui cùng gia đình chúng tôi
-        </div>
-      </div>
-
-      {/* Hero Arch Photo Frame with Curved Text */}
-      <div className="hero-photo-section">
-        {/* Curved SVG Text "LOVE NEVER FAILS" */}
-        <svg className="curved-text-svg" viewBox="0 0 300 70">
-          <path
-            id="archCurve"
-            d="M 20,60 A 130,50 0 0,1 280,60"
-            fill="none"
-          />
-          <text fill="#1A3D2F" fontSize="15" fontFamily="'Cinzel', Georgia, serif" fontWeight="700" letterSpacing="4">
-            <textPath href="#archCurve" startOffset="50%" textAnchor="middle">
-              ✦ LOVE NEVER FAILS ✦
-            </textPath>
-          </text>
-        </svg>
-
-        {/* Arch Photo Frame */}
-        <div className="hero-arch-frame">
+      {/* Main Hero Photo with Overlay Names */}
+      <div className="hero-photo-wrapper">
+        <div className="hero-photo-container">
           <img
             src={weddingConfig.heroImage}
-            alt={`${weddingConfig.groom.name} & ${weddingConfig.bride.name} Wedding`}
+            alt={`${groom.name} & ${bride.name}`}
             loading="eager"
           />
+          <div className="hero-names-overlay">
+            <div className="hero-name">{groom.fullName}</div>
+            <span className="hero-ampersand">&</span>
+            <div className="hero-name">{bride.fullName}</div>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Calendar Section */}
+      <div className="hero-calendar-section">
+        <div className="hero-calendar-label">Our wedding day</div>
+        <div className="hero-calendar-widget">
+          <div className="hero-calendar-month">Tháng {eventReception.calendarMonth}</div>
+          <div className="hero-calendar-grid">
+            {weekdays.map(d => (
+              <div key={d} className="hero-cal-weekday">{d}</div>
+            ))}
+            {calendarDays.map((c, i) => (
+              <div
+                key={i}
+                className={`hero-cal-day ${!c.currentMonth ? "muted" : ""} ${c.isReception ? "active" : ""} ${c.isCeremony ? "ceremony" : ""}`}
+              >
+                {c.day}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

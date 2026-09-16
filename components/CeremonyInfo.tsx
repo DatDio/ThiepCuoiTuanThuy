@@ -4,64 +4,75 @@ import React from "react";
 import { weddingConfig } from "@/data/weddingConfig";
 
 export default function CeremonyInfo() {
-  const { groom, bride, eventCeremony } = weddingConfig;
+  const { groom, bride, eventCeremony, eventReception } = weddingConfig;
 
   return (
     <section className="ceremony-section">
-      {/* Section Ribbon Bar */}
-      <div className="section-bar">THÔNG TIN LỄ CƯỚI</div>
-
-      <div className="ceremony-info-container">
-        {/* Two-column Parents Information */}
+      {/* Family Info */}
+      <div className="family-section">
         <div className="family-columns">
           <div className="family-side">
             <div className="family-title">Nhà Trai</div>
-            <div className="family-title">Ông Bà</div>
-            <div className="family-parents">{groom.fatherName}</div>
-            <div className="family-parents">{groom.motherName}</div>
+            <div className="family-parent-label">Ông.</div>
+            <div className="family-parent-name">{groom.fatherName}</div>
+            <div className="family-parent-label" style={{ marginTop: 4 }}>Bà.</div>
+            <div className="family-parent-name">{groom.motherName}</div>
             <div className="family-address">{groom.address}</div>
           </div>
 
-          <div className="family-divider"></div>
-
           <div className="family-side">
             <div className="family-title">Nhà Gái</div>
-            <div className="family-title">Ông Bà</div>
-            <div className="family-parents">{bride.fatherName}</div>
-            <div className="family-parents">{bride.motherName}</div>
+            <div className="family-parent-label">Ông.</div>
+            <div className="family-parent-name">{bride.fatherName}</div>
+            <div className="family-parent-label" style={{ marginTop: 4 }}>Bà.</div>
+            <div className="family-parent-name">{bride.motherName}</div>
             <div className="family-address">{bride.address}</div>
           </div>
         </div>
+      </div>
 
-        {/* Formal Announcement Notice */}
-        <div className="announcement-notice">TRÂN TRỌNG BÁO TIN</div>
-        <div className="announcement-subtitle">LỄ THÀNH HÔN CỦA CON CHÚNG TÔI</div>
+      {/* Couple Names in Calligraphy */}
+      <div className="couple-names-section">
+        <div className="couple-name-script">{groom.fullName}</div>
+        <span className="couple-ampersand">&</span>
+        <div className="couple-name-script">{bride.fullName}</div>
+      </div>
 
-        {/* Large Couple Names */}
-        <div className="couple-formal-names">
-          <div className="groom-block">
-            <div className="groom-name">{groom.fullName}</div>
-            <div className="role-tag">{groom.role}</div>
-          </div>
-
-          <div className="ampersand">&</div>
-
-          <div className="bride-block">
-            <div className="bride-name">{bride.fullName}</div>
-            <div className="role-tag">{bride.role}</div>
-          </div>
+      {/* Event 1: Bữa cơm thân mật */}
+      <div className="ceremony-event-block">
+        <div className="ceremony-event-title">TRÂN TRỌNG KÍNH MỜI</div>
+        <div className="ceremony-time-text">
+          TỚI DỰ BỮA CƠM THÂN MẬT CHUNG VUI
+        </div>
+        <div className="ceremony-time-text">
+          ĐƯỢC TỔ CHỨC VÀO LÚC {eventReception.time} {eventReception.dayOfWeek}
         </div>
 
-        {/* Ceremony Location & Time */}
-        <div className="ceremony-location-badge">
-          {eventCeremony.title} ĐƯỢC CỬ HÀNH TẠI
+        <div className="date-split-row">
+          <div className="date-split-item">{eventReception.dayOfWeek}</div>
+          <div className="date-vertical-divider"></div>
+          <div className="date-day-large">{eventReception.day}.{eventReception.month}</div>
+          <div className="date-vertical-divider"></div>
+          <div className="date-split-item">NĂM {eventReception.year}</div>
         </div>
-        <div style={{ fontFamily: "var(--font-serif)", fontSize: "20px", fontWeight: 700, color: "var(--color-forest)" }}>
-          {eventCeremony.location}
-        </div>
-        <div className="ceremony-time">VÀO LÚC {eventCeremony.time}</div>
 
-        {/* Date Split Layout */}
+        <div className="ceremony-lunar">({eventReception.lunarDate})</div>
+
+        <div className="ceremony-location-title">TẠI: {eventReception.venue}</div>
+        <div className="ceremony-location-address">{eventReception.address}</div>
+      </div>
+
+      <div className="section-divider" style={{ margin: "24px auto" }}></div>
+
+      {/* Event 2: Lễ Thành Hôn */}
+      <div className="ceremony-event-block">
+        <div className="ceremony-event-title" style={{ fontFamily: "var(--font-script)", fontSize: "28px", letterSpacing: 0, textTransform: "none" }}>
+          {eventCeremony.title === "LỄ THÀNH HÔN" ? "Lễ Thành Hôn" : eventCeremony.title}
+        </div>
+        <div className="ceremony-time-text">
+          ĐƯỢC TỔ CHỨC VÀO LÚC {eventCeremony.time}
+        </div>
+
         <div className="date-split-row">
           <div className="date-split-item">{eventCeremony.dayOfWeek}</div>
           <div className="date-vertical-divider"></div>
@@ -70,10 +81,17 @@ export default function CeremonyInfo() {
           <div className="date-split-item">{eventCeremony.month}</div>
         </div>
 
-        <div style={{ fontFamily: "var(--font-serif)", fontSize: "18px", fontWeight: 600, color: "var(--color-forest)" }}>
+        <div style={{ fontFamily: "var(--font-serif)", fontSize: "18px", fontWeight: 600, color: "var(--text-dark)" }}>
           {eventCeremony.year}
         </div>
-        <div className="lunar-date-text">({eventCeremony.lunarDate})</div>
+        <div className="ceremony-lunar">({eventCeremony.lunarDate})</div>
+
+        <div className="ceremony-location-title">TẠI: {eventCeremony.location}</div>
+        <div className="ceremony-location-address">{eventCeremony.address}</div>
+
+        <div className="ceremony-welcome-text">
+          Rất hân hạnh được đón tiếp!
+        </div>
       </div>
     </section>
   );

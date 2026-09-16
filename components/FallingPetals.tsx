@@ -11,6 +11,7 @@ interface Petal {
   rotation: number;
   rotationSpeed: number;
   opacity: number;
+  color: string;
 }
 
 export default function FallingPetals() {
@@ -34,19 +35,29 @@ export default function FallingPetals() {
 
     window.addEventListener("resize", handleResize);
 
-    const petalCount = Math.min(24, Math.floor(window.innerWidth / 30));
+    const petalCount = Math.min(20, Math.floor(window.innerWidth / 35));
     const petals: Petal[] = [];
 
+    // Cherry blossom pink colors
+    const colors = [
+      "rgba(232, 180, 184, OPACITY)", // pink
+      "rgba(245, 213, 216, OPACITY)", // soft pink
+      "rgba(255, 230, 235, OPACITY)", // light pink
+      "rgba(255, 255, 255, OPACITY)", // white
+    ];
+
     for (let i = 0; i < petalCount; i++) {
+      const opacity = 0.4 + Math.random() * 0.5;
       petals.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: 7 + Math.random() * 8,
-        speedY: 0.6 + Math.random() * 0.9,
-        speedX: -0.4 + Math.random() * 0.8,
+        size: 6 + Math.random() * 7,
+        speedY: 0.5 + Math.random() * 0.7,
+        speedX: -0.3 + Math.random() * 0.6,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
-        opacity: 0.4 + Math.random() * 0.5
+        opacity,
+        color: colors[Math.floor(Math.random() * colors.length)].replace("OPACITY", String(opacity))
       });
     }
 
@@ -54,17 +65,14 @@ export default function FallingPetals() {
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rotation);
-      ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-      ctx.strokeStyle = `rgba(235, 230, 220, ${p.opacity * 0.7})`;
-      ctx.lineWidth = 0.5;
+      ctx.fillStyle = p.color;
 
       ctx.beginPath();
-      // Draw delicate white rose / jasmine petal shape
+      // Cherry blossom petal shape
       ctx.moveTo(0, -p.size);
-      ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.8, p.size, 0, 0, p.size);
+      ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.8, p.size, 0, 0, p.size * 0.6);
       ctx.bezierCurveTo(-p.size, 0, -p.size * 0.8, -p.size * 0.8, 0, -p.size);
       ctx.fill();
-      ctx.stroke();
 
       ctx.restore();
     };
@@ -75,7 +83,7 @@ export default function FallingPetals() {
       for (let i = 0; i < petals.length; i++) {
         const p = petals[i];
         p.y += p.speedY;
-        p.x += p.speedX;
+        p.x += p.speedX + Math.sin(p.y * 0.01) * 0.3;
         p.rotation += p.rotationSpeed;
 
         if (p.y > height + 20) {

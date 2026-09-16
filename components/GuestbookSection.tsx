@@ -24,14 +24,14 @@ const DEFAULT_WISHES: Wish[] = [
   {
     id: "2",
     author: "Trần Thị Quỳnh Như",
-    message: "Hy vọng tổ ấm nhỏ này sẽ sớm rộn rã tiếng cười con trẻ và hạnh phúc viên mãn cùng năm tháng.",
+    message: "Chúc mừng hạnh phúc! Hai bạn thật đẹp đôi, chúc trăm năm bên nhau nhé!",
     createdAt: "22:08 27/07/2026",
     likes: 8
   },
   {
     id: "3",
-    author: "Anh Hoàng & Hội bạn ĐH",
-    message: "Chúc mừng chú rể Tuấn đã rước được nàng thơ Thuỷ về dinh! Chúc đôi bạn trăm năm răng long đầu bạc!",
+    author: "Anh Hoàng & Hội bạn",
+    message: "Chúc mừng chú rể Tuấn đã rước được nàng thơ Thủy về dinh! Chúc đôi bạn trăm năm hạnh phúc!",
     createdAt: "14:30 28/07/2026",
     likes: 12
   }
@@ -44,7 +44,6 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
   const [lastSubmittedWish, setLastSubmittedWish] = useState<Wish | null>(null);
 
   useEffect(() => {
-    // Load from localStorage
     try {
       const saved = localStorage.getItem("tuan_thuy_wishes");
       if (saved) {
@@ -82,7 +81,7 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
       // storage error
     }
 
-    // Optional: send to Google Sheet if webhook configured
+    // Optional: send to Google Sheet
     if (weddingConfig.googleSheetWebhookUrl) {
       try {
         fetch(weddingConfig.googleSheetWebhookUrl, {
@@ -99,12 +98,11 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
     setLastSubmittedWish(newWish);
     setMessage("");
 
-    // Celebratory confetti
     confetti({
       particleCount: 90,
       spread: 75,
       origin: { y: 0.8 },
-      colors: ["#1A3D2F", "#C5A059", "#7C9082", "#FBF8F2"]
+      colors: ["#E8B4B8", "#D4848A", "#F5D5D8", "#C5A059"]
     });
   };
 
@@ -125,19 +123,19 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
 
   const groomZaloUrl = lastSubmittedWish
     ? `https://zalo.me/${weddingConfig.groom.zaloPhone}?text=${encodeURIComponent(
-        `Chúc mừng đám cưới Tuấn & Thuỷ!\n\nLời chúc từ ${lastSubmittedWish.author}:\n"${lastSubmittedWish.message}"`
+        `Chúc mừng đám cưới Tuấn & Thủy!\n\nLời chúc từ ${lastSubmittedWish.author}:\n"${lastSubmittedWish.message}"`
       )}`
     : `https://zalo.me/${weddingConfig.groom.zaloPhone}`;
 
   const brideZaloUrl = lastSubmittedWish
     ? `https://zalo.me/${weddingConfig.bride.zaloPhone}?text=${encodeURIComponent(
-        `Chúc mừng đám cưới Tuấn & Thuỷ!\n\nLời chúc từ ${lastSubmittedWish.author}:\n"${lastSubmittedWish.message}"`
+        `Chúc mừng đám cưới Tuấn & Thủy!\n\nLời chúc từ ${lastSubmittedWish.author}:\n"${lastSubmittedWish.message}"`
       )}`
     : `https://zalo.me/${weddingConfig.bride.zaloPhone}`;
 
   return (
     <section className="guestbook-section">
-      <div className="section-bar">SỔ LƯU BÚT</div>
+      <div className="guestbook-title">SỔ LƯU BÚT</div>
 
       <div className="guestbook-form-card">
         <form onSubmit={handleSubmit}>
@@ -155,45 +153,45 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
           <div className="form-group">
             <textarea
               className="form-control"
-              placeholder="Nhập lời chúc của bạn gửi đến Tuấn & Thuỷ*"
+              placeholder={`Nhập lời chúc gửi đến ${weddingConfig.groom.name} & ${weddingConfig.bride.name}*`}
               value={message}
               onChange={e => setMessage(e.target.value)}
               required
             />
           </div>
 
-          <div style={{ textAlign: "right", marginTop: "10px" }}>
+          <div style={{ textAlign: "right", marginTop: 10 }}>
             <button
               type="submit"
               className="btn-primary-pill"
-              style={{ padding: "10px 24px", fontSize: "12px" }}
+              style={{ padding: "10px 24px", fontSize: 12 }}
               id="btn-send-wish"
             >
               <Send size={13} /> GỬI LỜI CHÚC
             </button>
           </div>
 
-          {/* Success Banner with Direct Zalo forwarding options */}
+          {/* Success Banner */}
           {lastSubmittedWish && (
             <div
               style={{
-                marginTop: "16px",
-                padding: "14px",
-                borderRadius: "10px",
-                backgroundColor: "#F3F8F4",
-                border: "1px solid #C8E6C9"
+                marginTop: 16,
+                padding: 14,
+                borderRadius: 10,
+                backgroundColor: "#FDF2F3",
+                border: "1px solid #F5D5D8"
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--color-forest)", fontWeight: 600, fontSize: "13px" }}>
-                <CheckCircle2 size={16} color="#2E7D32" />
+              <div style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--color-pink-deep)", fontWeight: 600, fontSize: 13 }}>
+                <CheckCircle2 size={16} color="#D4848A" />
                 Cảm ơn bạn! Lời chúc đã được đăng lên sổ lưu bút.
               </div>
-              
-              <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "4px" }}>
-                Bạn có muốn gửi lời chúc này trực tiếp qua Zalo cho cô dâu hoặc chú rể không?
+
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
+                Bạn có muốn gửi lời chúc trực tiếp qua Zalo không?
               </div>
 
-              <div style={{ display: "flex", gap: 8, marginTop: "10px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
                 <a
                   href={groomZaloUrl}
                   target="_blank"
@@ -205,13 +203,13 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
                     background: "#0068FF",
                     color: "#FFFFFF",
                     padding: "6px 12px",
-                    borderRadius: "6px",
-                    fontSize: "11px",
+                    borderRadius: 6,
+                    fontSize: 11,
                     fontWeight: 600,
                     textDecoration: "none"
                   }}
                 >
-                  <MessageCircle size={13} /> Gửi Zalo Chú Rể ({weddingConfig.groom.name})
+                  <MessageCircle size={13} /> Zalo Chú Rể
                 </a>
 
                 <a
@@ -225,13 +223,13 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
                     background: "#E91E63",
                     color: "#FFFFFF",
                     padding: "6px 12px",
-                    borderRadius: "6px",
-                    fontSize: "11px",
+                    borderRadius: 6,
+                    fontSize: 11,
                     fontWeight: 600,
                     textDecoration: "none"
                   }}
                 >
-                  <Heart size={13} fill="#FFFFFF" /> Gửi Zalo Cô Dâu ({weddingConfig.bride.name})
+                  <Heart size={13} fill="#FFFFFF" /> Zalo Cô Dâu
                 </a>
               </div>
             </div>
@@ -256,13 +254,13 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    color: "#C5A059",
-                    fontSize: "11px",
+                    color: "#D4848A",
+                    fontSize: 11,
                     fontWeight: 600
                   }}
-                  title="Thả tim lời chúc này"
+                  title="Thả tim"
                 >
-                  <Heart size={12} fill="#C5A059" /> {wish.likes || 1}
+                  <Heart size={12} fill="#D4848A" /> {wish.likes || 1}
                 </button>
               </div>
             </div>

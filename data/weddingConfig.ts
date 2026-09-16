@@ -8,6 +8,7 @@ export interface WeddingConfig {
     address: string;
     phone: string;
     zaloPhone: string;
+    image: string;
     bank: {
       bankName: string;
       accountNumber: string;
@@ -24,6 +25,7 @@ export interface WeddingConfig {
     address: string;
     phone: string;
     zaloPhone: string;
+    image: string;
     bank: {
       bankName: string;
       accountNumber: string;
@@ -31,7 +33,8 @@ export interface WeddingConfig {
       qrCodeUrl: string;
     };
   };
-  googleSheetWebhookUrl?: string; // Tùy chọn: Link Google Sheet để lưu lời chúc & RSVP tự động miễn phí
+  googleSheetWebhookUrl?: string;
+  loveStory: string;
   eventCeremony: {
     title: string;
     location: string;
@@ -60,18 +63,8 @@ export interface WeddingConfig {
     mapUrl: string;
     mapEmbedSrc: string;
   };
-  dressCode: {
-    title: string;
-    subtitle: string;
-    colors: { name: string; hex: string; border?: string }[];
-  };
-  timeline: {
-    time: string;
-    title: string;
-    desc?: string;
-  }[];
-  heroImage: string; // Ảnh vòm cung chính ở đầu trang
-  ogImage: string;   // Ảnh đại diện khi gửi link qua Zalo / Messenger
+  heroImage: string;
+  ogImage: string;
   gallery: {
     id: number;
     url: string;
@@ -85,121 +78,110 @@ export interface WeddingConfig {
 }
 
 export const weddingConfig: WeddingConfig = {
-  // 1. ẢNH ĐẠI DIỆN ĐẦU TRANG & ẢNH XEM TRƯỚC TRÊN ZALO / FACEBOOK
-  // Bạn có thể dán link online (https://...) HOẶC copy ảnh vào thư mục public/images/ rồi điền "/images/ten-anh.jpg"
-  heroImage: "/images/photo_2026-09-08_20-05-25.jpg",
-  ogImage: "/images/photo_2026-09-08_20-05-25.jpg",
+  // ẢNH ĐẠI DIỆN
+  heroImage: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
+  ogImage: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
 
+  // CHÚ RỂ
   groom: {
     name: "Quốc Tuấn",
-    fullName: "Võ Quốc Tuấn",
-    role: "Trưởng Nam",
-    fatherName: "Võ Nhật Minh",
-    motherName: "Trần Thu Thảo",
-    address: "Xóm 6, Xã Giao Minh, Tỉnh Ninh Bình",
+    fullName: "Phạm Quốc Tuấn",
+    role: "Chú Rể",
+    fatherName: "Phạm Quốc Việt",
+    motherName: "Mai Thị Riên",
+    address: "Thôn Hoành Đông, Xã Giao Minh, Tỉnh Ninh Bình",
     phone: "0901234567",
     zaloPhone: "0901234567",
+    image: "/images/1789573888380_2842699904430270249_2842699904430270249_58e0cf4cad043424db7af7504352c07a.jpg",
     bank: {
       bankName: "Vietcombank",
       accountNumber: "1018999888",
-      accountName: "VO QUOC TUAN",
-      qrCodeUrl: "https://img.vietqr.io/image/VCB-1018999888-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Tuan%20Thuy&accountName=VO%20QUOC%20TUAN"
+      accountName: "PHAM QUOC TUAN",
+      qrCodeUrl: "https://img.vietqr.io/image/VCB-1018999888-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Tuan%20Thuy&accountName=PHAM%20QUOC%20TUAN"
     }
   },
+
+  // CÔ DÂU
   bride: {
-    name: "Đinh Thuỷ",
-    fullName: "Đinh Thuỷ",
-    role: "Út Nữ",
-    fatherName: "Đinh Thanh Nam",
-    motherName: "Nguyễn Thị Kim Oanh",
-    address: "Xóm 6, Xã Giao Minh, Tỉnh Ninh Bình",
+    name: "Thị Thủy",
+    fullName: "Đinh Thị Thủy",
+    role: "Cô Dâu",
+    fatherName: "Đinh Văn Thuần",
+    motherName: "Phạm Thị Quế",
+    address: "Thôn Hoành Đông, Xã Giao Minh, Tỉnh Ninh Bình",
     phone: "0987654321",
     zaloPhone: "0987654321",
+    image: "/images/1789573888373_2842699904430270249_2842699904430270249_84082cfcf9e05dbd7b3794a736819584.jpg",
     bank: {
       bankName: "Techcombank",
       accountNumber: "1903666888",
-      accountName: "DINH THUY",
-      qrCodeUrl: "https://img.vietqr.io/image/TCB-1903666888-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Tuan%20Thuy&accountName=DINH%20THUY"
+      accountName: "DINH THI THUY",
+      qrCodeUrl: "https://img.vietqr.io/image/TCB-1903666888-compact2.png?amount=0&addInfo=Mung%20Cuoi%20Tuan%20Thuy&accountName=DINH%20THI%20THUY"
     }
   },
-  googleSheetWebhookUrl: "", // Nhập link Google Apps Script Webhook nếu muốn tự động đồng bộ vào Google Sheet
-  eventCeremony: {
-    title: "LỄ THÀNH HÔN",
-    location: "TƯ GIA",
-    address: "Xóm 6, Xã Giao Minh, Tỉnh Ninh Bình",
-    time: "09:00",
-    dayOfWeek: "THỨ BẢY",
-    day: "10",
-    month: "THÁNG 10",
-    year: "2026",
-    lunarDate: "TỨC NGÀY 01 THÁNG 9 NĂM BÍNH NGỌ"
-  },
+
+  googleSheetWebhookUrl: "",
+
+  // CÂU CHUYỆN TÌNH YÊU
+  loveStory: "Giữa muôn vàn gặp gỡ, chúng mình may mắn tìm thấy nhau. Từ những ngày đầu bỡ ngỡ, qua bao vui buồn và thử thách, tình yêu vẫn kiên định, hòa thành sự thấu hiểu và đồng hành. Hôm nay hạnh phúc chẳng phải điều xa xôi mà là có một người để cùng sẻ chia, cùng nắm tay đi hết chặng đường dài phía trước.\n\nVà rồi chúng mình,\nChúng mình gặp nhau giữa đông đời.",
+
+  // SỰ KIỆN 1: BỮA CƠM THÂN MẬT (TIỆC)
   eventReception: {
-    title: "TIỆC CƯỚI THÂN MẬT",
-    venue: "Tư Gia",
-    address: "Xóm 6, Xã Giao Minh, Tỉnh Ninh Bình",
-    time: "18:00",
-    startTime: "18:00",
+    title: "BỮA CƠM THÂN MẬT",
+    venue: "TƯ GIA NHÀ TRAI",
+    address: "Thôn Hoành Đông - Xã Giao Minh - Tỉnh Ninh Bình",
+    time: "17:30",
+    startTime: "17:30",
     dayOfWeek: "THỨ BẢY",
     day: "10",
-    month: "THÁNG 10",
+    month: "10",
     year: "2026",
-    lunarDate: "TỨC NGÀY 01 THÁNG 9 NĂM BÍNH NGỌ",
+    lunarDate: "Tức ngày 01 tháng 09 năm Bính Ngọ",
     calendarMonth: 10,
     calendarYear: 2026,
     weddingDay: 10,
-    mapUrl: "https://maps.google.com/?q=Xom+6+Giao+Minh+Ninh+Binh",
+    mapUrl: "https://maps.google.com/?q=Thon+Hoanh+Dong+Giao+Minh+Ninh+Binh",
     mapEmbedSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15000!2d106.3!3d20.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zR2lhbyBNaW5o!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s"
   },
-  dressCode: {
-    title: "DRESS CODE",
-    subtitle: "Trang phục dự tiệc",
-    colors: [
-      { name: "Xanh Rêu (Forest/Sage)", hex: "#7C9082" },
-      { name: "Trắng Kem (Off-white)", hex: "#F5F2EB", border: "#E0DCD3" },
-      { name: "Be Vàng (Soft Beige)", hex: "#D8CCBC" }
-    ]
+
+  // SỰ KIỆN 2: LỄ THÀNH HÔN
+  eventCeremony: {
+    title: "LỄ THÀNH HÔN",
+    location: "TƯ GIA NHÀ TRAI",
+    address: "Thôn Hoành Đông - Xã Giao Minh - Tỉnh Ninh Bình",
+    time: "10:00",
+    dayOfWeek: "CHỦ NHẬT",
+    day: "11",
+    month: "THÁNG 10",
+    year: "2026",
+    lunarDate: "Tức ngày 02 tháng 09 năm Bính Ngọ"
   },
-  timeline: [
-    { time: "17:30", title: "Đón khách", desc: "Chụp ảnh lưu niệm cùng Cô dâu & Chú rể" },
-    { time: "18:30", title: "Khai tiệc", desc: "Đón chào tân lang & tân nương vào lễ đường" },
-    { time: "18:45", title: "Rót rượu, cắt bánh", desc: "Nghi thức hôn lễ trang trọng" },
-    { time: "19:00", title: "Phục vụ món chính", desc: "Mời quan khách dùng tiệc cùng âm nhạc" },
-    { time: "20:00", title: "Minigame & Chúc rượu", desc: "Khoảnh khắc giao lưu đầm ấm" },
-    { time: "21:00", title: "Kết thúc tiệc", desc: "Cảm ơn & tiễn khách quý" }
-  ],
+
+  // ALBUM ẢNH
   gallery: [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop",
-      caption: "Khoảnh khắc hạnh phúc dưới vòm hoa"
+      url: "/images/1789573888362_2842699904430270249_2842699904430270249_944bfb98e701fde2ae981889f662f6d4.jpg",
+      caption: "Khoảnh khắc hạnh phúc"
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1000&auto=format&fit=crop",
-      caption: "Nụ cười rạng rỡ của đôi uyên ương"
+      url: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
+      caption: "Bên nhau trọn đời"
     },
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1000&auto=format&fit=crop",
-      caption: "Tay trong tay hướng về tương lai"
+      url: "/images/1789573888390_2842699904430270249_2842699904430270249_80dd04126908a357bebc4ce71d39f16a.jpg",
+      caption: "Nụ cười hạnh phúc"
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1000&auto=format&fit=crop",
-      caption: "Lời hẹn ước trọn đời"
-    },
-    {
-      id: 5,
-      url: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1000&auto=format&fit=crop",
-      caption: "Ánh mắt trao nhau ngọt ngào"
-    },
-    {
-      id: 6,
-      url: "https://images.unsplash.com/photo-1529636798458-92182e662485?q=80&w=1000&auto=format&fit=crop",
-      caption: "Tình yêu bắt đầu từ những điều giản đơn"
+      url: "/images/photo_2026-09-08_20-05-25.jpg",
+      caption: "Ngày trọng đại"
     }
   ],
+
+  // NHẠC NỀN
   music: {
     url: "/music/IDo.mp3",
     title: "I Do",

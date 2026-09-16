@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { weddingConfig } from "@/data/weddingConfig";
-import { X, Copy, Check, QrCode } from "lucide-react";
+import { X, Copy, Check } from "lucide-react";
 
 interface LuckyMoneyModalProps {
   isOpen: boolean;
@@ -31,19 +31,19 @@ export default function LuckyMoneyModal({ isOpen, onClose }: LuckyMoneyModalProp
           <X size={18} />
         </button>
 
-        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+        <div style={{ textAlign: "center", marginBottom: 16 }}>
           <div
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: "17px",
+              fontSize: 17,
               fontWeight: 700,
-              color: "var(--color-forest)",
-              letterSpacing: "1px"
+              color: "var(--text-dark)",
+              letterSpacing: 1
             }}
           >
             HỘP MỪNG CƯỚI ONLINE
           </div>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
+          <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
             Gửi món quà chúc phúc ý nghĩa đến Cô dâu & Chú rể
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function LuckyMoneyModal({ isOpen, onClose }: LuckyMoneyModalProp
 
         {/* QR & Bank Info Box */}
         <div className="qr-box">
-          <div style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "1px", color: "var(--color-gold)", fontWeight: 700, marginBottom: "8px" }}>
+          <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 1, color: "var(--color-pink-deep)", fontWeight: 700, marginBottom: 8 }}>
             Mã VietQR Chuyển Khoản Nhanh
           </div>
 
@@ -82,17 +82,17 @@ export default function LuckyMoneyModal({ isOpen, onClose }: LuckyMoneyModalProp
             className="qr-image"
           />
 
-          <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--color-forest)", marginTop: "4px" }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-dark)", marginTop: 4 }}>
             {currentPerson.bank.bankName}
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: "6px" }}>
-            <span style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "1px", color: "var(--text-dark)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: 1, color: "var(--text-dark)" }}>
               {currentPerson.bank.accountNumber}
             </span>
           </div>
 
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>
+          <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
             Chủ tài khoản: <strong>{currentPerson.bank.accountName}</strong>
           </div>
 

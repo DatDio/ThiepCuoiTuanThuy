@@ -23,7 +23,6 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
     e.preventDefault();
     if (!name.trim()) return;
 
-    // Save to localStorage
     const rsvpEntry = {
       name: name.trim(),
       status,
@@ -47,7 +46,7 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
         particleCount: 90,
         spread: 70,
         origin: { y: 0.7 },
-        colors: ["#1A3D2F", "#C5A059", "#7C9082"]
+        colors: ["#E8B4B8", "#D4848A", "#F5D5D8"]
       });
     }
 
@@ -64,38 +63,38 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
           <X size={18} />
         </button>
 
-        <div style={{ textAlign: "center", marginBottom: "18px" }}>
+        <div style={{ textAlign: "center", marginBottom: 18 }}>
           <div
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: "17px",
+              fontSize: 17,
               fontWeight: 700,
-              color: "var(--color-forest)",
-              letterSpacing: "1px"
+              color: "var(--text-dark)",
+              letterSpacing: 1
             }}
           >
             XÁC NHẬN THAM DỰ
           </div>
-          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "4px" }}>
-            Để gia đình chuẩn bị chu đáo nhất, xin vui lòng phản hồi trước ngày 20/07/2026
+          <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
+            Để gia đình chuẩn bị chu đáo nhất
           </div>
         </div>
 
         {isDone ? (
           <div style={{ textAlign: "center", padding: "30px 10px" }}>
-            <CheckCircle size={48} color="#1A3D2F" style={{ margin: "0 auto 12px" }} />
-            <div style={{ fontFamily: "var(--font-serif)", fontSize: "18px", fontWeight: 700, color: "var(--color-forest)" }}>
+            <CheckCircle size={48} color="#D4848A" style={{ margin: "0 auto 12px" }} />
+            <div style={{ fontFamily: "var(--font-serif)", fontSize: 18, fontWeight: 700, color: "var(--text-dark)" }}>
               Xác Nhận Thành Công!
             </div>
-            <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "6px" }}>
-              Cảm ơn {name} đã phản hồi. Sự hiện diện của bạn là niềm vinh hạnh cho chúng mình!
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 6 }}>
+              Cảm ơn {name} đã phản hồi. Sự hiện diện của bạn là niềm vinh hạnh!
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
-                Họ và tên của bạn *
+              <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
+                Họ và tên *
               </label>
               <input
                 type="text"
@@ -108,7 +107,7 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
             </div>
 
             <div className="form-group">
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
                 Số điện thoại (tùy chọn)
               </label>
               <input
@@ -116,56 +115,36 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
                 className="form-control"
                 value={phone}
                 onChange={e => setPhone(e.target.value)}
-                placeholder="Số điện thoại của bạn"
+                placeholder="Số điện thoại"
               />
             </div>
 
             <div className="form-group">
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
-                Khả năng tham dự tiệc cưới *
+              <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 6 }}>
+                Khả năng tham dự *
               </label>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "13px", cursor: "pointer" }}>
-                  <input
-                    type="radio"
-                    name="rsvpStatus"
-                    checked={status === "yes-1"}
-                    onChange={() => setStatus("yes-1")}
-                  />
-                  Sẽ tham dự (1 người)
-                </label>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "13px", cursor: "pointer" }}>
-                  <input
-                    type="radio"
-                    name="rsvpStatus"
-                    checked={status === "yes-2"}
-                    onChange={() => setStatus("yes-2")}
-                  />
-                  Sẽ tham dự (2 người - đi cùng người thương)
-                </label>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "13px", cursor: "pointer" }}>
-                  <input
-                    type="radio"
-                    name="rsvpStatus"
-                    checked={status === "yes-family"}
-                    onChange={() => setStatus("yes-family")}
-                  />
-                  Cả gia đình sẽ cùng tham dự
-                </label>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "13px", cursor: "pointer", color: "#8E9E92" }}>
-                  <input
-                    type="radio"
-                    name="rsvpStatus"
-                    checked={status === "no"}
-                    onChange={() => setStatus("no")}
-                  />
-                  Rất tiếc không thể tham dự (Gửi lời chúc phúc)
-                </label>
+                {[
+                  { value: "yes-1" as const, label: "Sẽ tham dự (1 người)" },
+                  { value: "yes-2" as const, label: "Sẽ tham dự (2 người)" },
+                  { value: "yes-family" as const, label: "Cả gia đình cùng tham dự" },
+                  { value: "no" as const, label: "Rất tiếc không thể tham dự" }
+                ].map(opt => (
+                  <label key={opt.value} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, cursor: "pointer", color: opt.value === "no" ? "var(--text-muted)" : "var(--text-dark)" }}>
+                    <input
+                      type="radio"
+                      name="rsvpStatus"
+                      checked={status === opt.value}
+                      onChange={() => setStatus(opt.value)}
+                    />
+                    {opt.label}
+                  </label>
+                ))}
               </div>
             </div>
 
             <div className="form-group">
-              <label style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
+              <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", display: "block", marginBottom: 4 }}>
                 Lời nhắn gửi đến đôi uyên ương
               </label>
               <textarea
@@ -177,7 +156,7 @@ export default function RsvpModal({ isOpen, onClose, defaultGuestName }: RsvpMod
               />
             </div>
 
-            <div style={{ textAlign: "center", marginTop: "16px" }}>
+            <div style={{ textAlign: "center", marginTop: 16 }}>
               <button
                 type="submit"
                 className="btn-primary-pill"
