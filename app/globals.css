@@ -120,6 +120,27 @@ img {
   position: relative;
 }
 
+.guest-invitation-badge {
+  text-align: center;
+  padding: 32px 20px 10px;
+  background-color: var(--bg-cream);
+}
+
+.guest-invitation-badge .badge-text-small {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.guest-invitation-badge .badge-text-name {
+  font-family: var(--font-script);
+  font-size: 32px;
+  color: var(--color-pink-deep);
+  line-height: 1.2;
+}
+
 .hero-photo-container img {
   width: 100%;
   height: auto;

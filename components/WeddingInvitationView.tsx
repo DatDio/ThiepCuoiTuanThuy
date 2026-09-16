@@ -76,9 +76,15 @@ export default function WeddingInvitationView({ guestName }: WeddingInvitationVi
       const existing = JSON.parse(localStorage.getItem("tuan_thuy_wishes") || "[]");
       existing.unshift(newWish);
       localStorage.setItem("tuan_thuy_wishes", JSON.stringify(existing));
+      
+      // Notify GuestbookSection to update immediately
+      window.dispatchEvent(new CustomEvent("new_wish_added", { detail: newWish }));
     } catch {
       // ignore
     }
+
+    // Show immediately in floating bubbles
+    setFloatingWishes(prev => [...prev.slice(-3), { id: parseInt(newWish.id), name: newWish.author, msg: newWish.message }]);
 
     setQuickWishSent(true);
     setQuickWishMsg("");

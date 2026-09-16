@@ -56,6 +56,14 @@ export default function GuestbookSection({ defaultGuestName }: { defaultGuestNam
     if (defaultGuestName && defaultGuestName !== "Quý Khách") {
       setAuthor(defaultGuestName);
     }
+
+    const handleNewWish = (e: Event) => {
+      const customEvent = e as CustomEvent<Wish>;
+      setWishes(prev => [customEvent.detail, ...prev]);
+    };
+
+    window.addEventListener("new_wish_added", handleNewWish);
+    return () => window.removeEventListener("new_wish_added", handleNewWish);
   }, [defaultGuestName]);
 
   const handleSubmit = (e: React.FormEvent) => {
