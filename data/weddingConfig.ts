@@ -79,8 +79,8 @@ export interface WeddingConfig {
 
 export const weddingConfig: WeddingConfig = {
   // ẢNH ĐẠI DIỆN
-  heroImage: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
-  ogImage: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
+  heroImage: "/images/1.jpg",
+  ogImage: "/images/1.jpg",
 
   // CHÚ RỂ
   groom: {
@@ -92,7 +92,7 @@ export const weddingConfig: WeddingConfig = {
     address: "Thôn Hoành Đông, Xã Giao Minh, Tỉnh Ninh Bình",
     phone: "0901234567",
     zaloPhone: "0901234567",
-    image: "/images/1789573888380_2842699904430270249_2842699904430270249_58e0cf4cad043424db7af7504352c07a.jpg",
+    image: "/images/3.jpg",
     bank: {
       bankName: "Vietcombank",
       accountNumber: "1018999888",
@@ -108,10 +108,10 @@ export const weddingConfig: WeddingConfig = {
     role: "Cô Dâu",
     fatherName: "Đinh Văn Thuần",
     motherName: "Phạm Thị Quế",
-    address: "Thôn Hoành Đông, Xã Giao Minh, Tỉnh Ninh Bình",
+    address: "Thôn Phú Thọ, Xã Giao Minh, Tỉnh Ninh Bình",
     phone: "0987654321",
     zaloPhone: "0987654321",
-    image: "/images/1789573888373_2842699904430270249_2842699904430270249_84082cfcf9e05dbd7b3794a736819584.jpg",
+    image: "/images/2.jpg",
     bank: {
       bankName: "Techcombank",
       accountNumber: "1903666888",
@@ -161,23 +161,13 @@ export const weddingConfig: WeddingConfig = {
   gallery: [
     {
       id: 1,
-      url: "/images/1789573888362_2842699904430270249_2842699904430270249_944bfb98e701fde2ae981889f662f6d4.jpg",
+      url: "/images/4.jpg",
       caption: "Khoảnh khắc hạnh phúc"
     },
     {
       id: 2,
-      url: "/images/1789573888385_2842699904430270249_2842699904430270249_fb602e2410d1a8a2445e833aef0256fe.jpg",
+      url: "/images/5.jpg",
       caption: "Bên nhau trọn đời"
-    },
-    {
-      id: 3,
-      url: "/images/1789573888390_2842699904430270249_2842699904430270249_80dd04126908a357bebc4ce71d39f16a.jpg",
-      caption: "Nụ cười hạnh phúc"
-    },
-    {
-      id: 4,
-      url: "/images/photo_2026-09-08_20-05-25.jpg",
-      caption: "Ngày trọng đại"
     }
   ],
 

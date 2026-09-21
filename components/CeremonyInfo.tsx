@@ -17,7 +17,6 @@ export default function CeremonyInfo() {
             <div className="family-parent-name">{groom.fatherName}</div>
             <div className="family-parent-label" style={{ marginTop: 4 }}>Bà.</div>
             <div className="family-parent-name">{groom.motherName}</div>
-            <div className="family-address">{groom.address}</div>
           </div>
 
           <div className="family-side">
@@ -26,7 +25,6 @@ export default function CeremonyInfo() {
             <div className="family-parent-name">{bride.fatherName}</div>
             <div className="family-parent-label" style={{ marginTop: 4 }}>Bà.</div>
             <div className="family-parent-name">{bride.motherName}</div>
-            <div className="family-address">{bride.address}</div>
           </div>
         </div>
       </div>
@@ -86,8 +84,8 @@ export default function CeremonyInfo() {
         </div>
         <div className="ceremony-lunar">({eventCeremony.lunarDate})</div>
 
-        <div className="ceremony-location-title">TẠI: {eventCeremony.location}</div>
-        <div className="ceremony-location-address">{eventCeremony.address}</div>
+        <div className="ceremony-location-title" style={{ textTransform: "uppercase" }}>TẠI TƯ GIA NHÀ TRAI: {groom.address}</div>
+        <div className="ceremony-location-title" style={{ textTransform: "uppercase", marginTop: 8 }}>TẠI TƯ GIA NHÀ GÁI: {bride.address}</div>
 
         <div className="ceremony-welcome-text">
           Rất hân hạnh được đón tiếp!
