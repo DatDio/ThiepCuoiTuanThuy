@@ -16,7 +16,7 @@ export default function LoveStorySection() {
       <div className="love-story-card-alt">
         <div className="love-story-quote">
           Và rồi chúng mình,{"\n"}
-          Chúng mình gặp nhau giữa đông đời.
+          Chúng mình gặp nhau giữa dòng đời.
         </div>
       </div>
     </section>

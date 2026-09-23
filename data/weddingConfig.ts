@@ -123,7 +123,7 @@ export const weddingConfig: WeddingConfig = {
   googleSheetWebhookUrl: "",
 
   // CÂU CHUYỆN TÌNH YÊU
-  loveStory: "Giữa muôn vàn gặp gỡ, chúng mình may mắn tìm thấy nhau. Từ những ngày đầu bỡ ngỡ, qua bao vui buồn và thử thách, tình yêu vẫn kiên định, hòa thành sự thấu hiểu và đồng hành. Hôm nay hạnh phúc chẳng phải điều xa xôi mà là có một người để cùng sẻ chia, cùng nắm tay đi hết chặng đường dài phía trước.\n\nVà rồi chúng mình,\nChúng mình gặp nhau giữa đông đời.",
+  loveStory: "Giữa muôn vàn gặp gỡ, chúng mình may mắn tìm thấy nhau. Từ những ngày đầu bỡ ngỡ, qua bao vui buồn và thử thách, tình yêu vẫn kiên định, hòa thành sự thấu hiểu và đồng hành. Hôm nay hạnh phúc chẳng phải điều xa xôi mà là có một người để cùng sẻ chia, cùng nắm tay đi hết chặng đường dài phía trước.\n\nVà rồi chúng mình,\nChúng mình gặp nhau giữa dòng đời.",
 
   // SỰ KIỆN 1: BỮA CƠM THÂN MẬT (TIỆC)
   eventReception: {
@@ -173,7 +173,7 @@ export const weddingConfig: WeddingConfig = {
 
   // NHẠC NỀN
   music: {
-    url: "/music/IDo.mp3",
+    url: "/music/VideoProject.mp3",
     title: "I Do",
     artist: "911"
   }
