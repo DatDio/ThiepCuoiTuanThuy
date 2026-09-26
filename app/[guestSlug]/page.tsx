@@ -18,7 +18,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const queryGuest = searchParams?.to || searchParams?.guest || searchParams?.name;
   const guestName = queryGuest ? decodeURIComponent(queryGuest) : decodeSlugToName(params.guestSlug);
   const canonicalPath = `/${encodeURIComponent(params.guestSlug)}`;
-  const ogImageUrl = `${weddingConfig.ogImage}?v=20260926`;
+  const ogImageUrl = weddingConfig.ogImage;
 
   return {
     title: `Thiệp Cưới Tuấn & Thuỷ - Trân trọng kính mời ${guestName}`,
@@ -36,8 +36,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       images: [
         {
           url: ogImageUrl,
-          width: 1376,
-          height: 768,
+          width: 1200,
+          height: 630,
           type: "image/jpeg",
           alt: "Thiệp Cưới Quốc Tuấn & Đinh Thuỷ"
         }

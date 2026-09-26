@@ -4,7 +4,7 @@ import { weddingConfig } from "@/data/weddingConfig";
 
 // URL gốc của website - thay bằng domain thực tế của bạn
 const BASE_URL = "https://thiep-cuoi-tuan-thuy.vercel.app";
-const OG_IMAGE_URL = `${BASE_URL}${weddingConfig.ogImage}?v=20260926`;
+const OG_IMAGE_URL = `${BASE_URL}${weddingConfig.ogImage}`;
 
 export const viewport = {
   width: "device-width",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE_URL,
-        width: 1376,
-        height: 768,
+        width: 1200,
+        height: 630,
         type: "image/jpeg",
         alt: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`
       }

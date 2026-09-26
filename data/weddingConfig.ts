@@ -80,7 +80,7 @@ export interface WeddingConfig {
 export const weddingConfig: WeddingConfig = {
   // ẢNH ĐẠI DIỆN
   heroImage: "/images/1.jpg",
-  ogImage: "/images/og-banner.jpg",
+  ogImage: "/images/og-banner-v2.jpg",
 
   // CHÚ RỂ
   groom: {
@@ -173,7 +173,7 @@ export const weddingConfig: WeddingConfig = {
 
   // NHẠC NỀN
   music: {
-    url: "/music/VideoProject.mp3",
+    url: "/music/VideoProject-fixed.mp3",
     title: "I Do",
     artist: "911"
   }
