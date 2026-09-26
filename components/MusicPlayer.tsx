@@ -1,62 +1,52 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Music, VolumeX, Disc } from "lucide-react";
+import { VolumeX, Disc } from "lucide-react";
 import { weddingConfig } from "@/data/weddingConfig";
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const hasInteracted = useRef(false);
+  const isPlayingRef = useRef(false);
+
+  const playAudio = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio || isPlayingRef.current) return false;
+
+    try {
+      audio.volume = 0.5;
+      await audio.play();
+      isPlayingRef.current = true;
+      setIsPlaying(true);
+      return true;
+    } catch {
+      // iOS/Safari chỉ cho phát âm thanh trong một thao tác chạm hợp lệ.
+      // Giữ listener để lần chạm tiếp theo vẫn có thể thử lại.
+      return false;
+    }
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Cố gắng tự động phát
-    const attemptPlay = () => {
-      if (isPlaying) return;
-      audio.volume = 0.5;
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            hasInteracted.current = true;
-          })
-          .catch(() => {
-            // Autoplay bị chặn, đợi người dùng tương tác
-            setIsPlaying(false);
-          });
+    const handleInteraction = async () => {
+      if (await playAudio()) {
+        document.removeEventListener("click", handleInteraction);
+        document.removeEventListener("touchend", handleInteraction);
       }
     };
 
-    // Tự động thử phát sau khi tải trang
-    const timer = setTimeout(attemptPlay, 500);
-
-    // Khi người dùng bấm/chạm màn hình lần đầu
-    const handleInteraction = () => {
-      if (hasInteracted.current) return;
-      hasInteracted.current = true;
-      attemptPlay();
-      
-      // Gỡ bỏ event sau khi đã tương tác để tránh lỗi spam play()
-      window.removeEventListener("click", handleInteraction);
-      window.removeEventListener("touchstart", handleInteraction);
-      window.removeEventListener("scroll", handleInteraction);
-    };
-
-    window.addEventListener("click", handleInteraction);
-    window.addEventListener("touchstart", handleInteraction);
-    window.addEventListener("scroll", handleInteraction, { once: true, passive: true });
+    // Desktop có thể autoplay; iPhone sẽ phát ngay ở lần chạm đầu tiên.
+    void playAudio();
+    document.addEventListener("click", handleInteraction);
+    document.addEventListener("touchend", handleInteraction, { passive: true });
 
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener("click", handleInteraction);
-      window.removeEventListener("touchstart", handleInteraction);
-      window.removeEventListener("scroll", handleInteraction);
+      document.removeEventListener("click", handleInteraction);
+      document.removeEventListener("touchend", handleInteraction);
     };
-  }, [isPlaying]);
+  }, [playAudio]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -64,21 +54,16 @@ export default function MusicPlayer() {
     
     if (isPlaying) {
       audioRef.current.pause();
+      isPlayingRef.current = false;
       setIsPlaying(false);
     } else {
-      audioRef.current.volume = 0.5;
-      audioRef.current.play()
-        .then(() => {
-          setIsPlaying(true);
-          hasInteracted.current = true;
-        })
-        .catch(err => console.log("Audio play error:", err));
+      void playAudio();
     }
   };
 
   return (
     <>
-      <audio ref={audioRef} loop preload="auto">
+      <audio ref={audioRef} loop preload="metadata" playsInline>
         <source src={weddingConfig.music.url} type="audio/mpeg" />
       </audio>
       <button
