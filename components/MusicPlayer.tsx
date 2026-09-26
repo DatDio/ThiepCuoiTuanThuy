@@ -7,53 +7,71 @@ import { weddingConfig } from "@/data/weddingConfig";
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const hasTriedAutoplay = useRef(false);
-
-  const tryPlay = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio || isPlaying) return;
-
-    audio.volume = 0.5;
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          // Autoplay blocked
-        });
-    }
-  }, [isPlaying]);
+  const hasInteracted = useRef(false);
 
   useEffect(() => {
-    if (!hasTriedAutoplay.current) {
-      hasTriedAutoplay.current = true;
-      setTimeout(() => tryPlay(), 300);
-    }
+    const audio = audioRef.current;
+    if (!audio) return;
 
-    const startOnInteraction = () => tryPlay();
+    // Cố gắng tự động phát
+    const attemptPlay = () => {
+      if (isPlaying) return;
+      audio.volume = 0.5;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            hasInteracted.current = true;
+          })
+          .catch(() => {
+            // Autoplay bị chặn, đợi người dùng tương tác
+            setIsPlaying(false);
+          });
+      }
+    };
 
-    window.addEventListener("click", startOnInteraction);
-    window.addEventListener("touchstart", startOnInteraction);
-    window.addEventListener("scroll", startOnInteraction, { passive: true });
+    // Tự động thử phát sau khi tải trang
+    const timer = setTimeout(attemptPlay, 500);
+
+    // Khi người dùng bấm/chạm màn hình lần đầu
+    const handleInteraction = () => {
+      if (hasInteracted.current) return;
+      hasInteracted.current = true;
+      attemptPlay();
+      
+      // Gỡ bỏ event sau khi đã tương tác để tránh lỗi spam play()
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("touchstart", handleInteraction);
+      window.removeEventListener("scroll", handleInteraction);
+    };
+
+    window.addEventListener("click", handleInteraction);
+    window.addEventListener("touchstart", handleInteraction);
+    window.addEventListener("scroll", handleInteraction, { once: true, passive: true });
 
     return () => {
-      window.removeEventListener("click", startOnInteraction);
-      window.removeEventListener("touchstart", startOnInteraction);
-      window.removeEventListener("scroll", startOnInteraction);
+      clearTimeout(timer);
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("touchstart", handleInteraction);
+      window.removeEventListener("scroll", handleInteraction);
     };
-  }, [tryPlay]);
+  }, [isPlaying]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!audioRef.current) return;
+    
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
       audioRef.current.volume = 0.5;
-      audioRef.current
-        .play()
-        .then(() => setIsPlaying(true))
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+          hasInteracted.current = true;
+        })
         .catch(err => console.log("Audio play error:", err));
     }
   };
