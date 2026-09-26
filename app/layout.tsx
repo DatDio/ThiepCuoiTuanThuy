@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`,
     description: `Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi.`,
-    url: BASE_URL,
     siteName: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`,
     images: [
       {
