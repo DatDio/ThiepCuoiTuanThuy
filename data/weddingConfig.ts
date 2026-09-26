@@ -80,7 +80,7 @@ export interface WeddingConfig {
 export const weddingConfig: WeddingConfig = {
   // ẢNH ĐẠI DIỆN
   heroImage: "/images/1.jpg",
-  ogImage: "/images/1.jpg",
+  ogImage: "/images/og-banner.jpg",
 
   // CHÚ RỂ
   groom: {
