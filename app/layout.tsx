@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { weddingConfig } from "@/data/weddingConfig";
 
+// URL gốc của website - thay bằng domain thực tế của bạn
+const BASE_URL = "https://thiep-cuoi-tuan-thuy.vercel.app";
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -15,9 +18,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`,
     description: `Trân trọng kính mời quý khách đến chung vui cùng gia đình chúng tôi.`,
+    url: BASE_URL,
+    siteName: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`,
     images: [
       {
-        url: weddingConfig.ogImage,
+        url: `${BASE_URL}${weddingConfig.ogImage}`,
         width: 1200,
         height: 630,
         alt: `Thiệp Cưới ${weddingConfig.groom.fullName} & ${weddingConfig.bride.fullName}`
